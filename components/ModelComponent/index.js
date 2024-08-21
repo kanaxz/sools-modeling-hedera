@@ -67,8 +67,6 @@ module.exports = class ModelComponent extends Interface {
     if (!this.model) { return }
     await this.model.load()
   }
-
-
 }
   .define({
     name: 'model-component',
