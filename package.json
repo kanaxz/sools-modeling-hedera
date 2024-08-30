@@ -1,6 +1,6 @@
 {
  "name": "sools-modeling-hedera",
- "version": "1.5.0",
+ "version": "1.6.0",
  "main": "index.js",
  "scripts": {
   "test": "mocha **/*.test.js"
@@ -10,9 +10,9 @@
  "dependencies": {
   "sools-core": "^1.15.0",
   "sools-core-client": "^1.18.0",
-  "sools-hedera": "^1.8.0",
-  "sools-modeling": "^1.15.0",
-  "sools-modeling-client": "^1.11.0"
+  "sools-hedera": "^1.9.0",
+  "sools-modeling": "^1.17.0",
+  "sools-modeling-client": "^1.12.0"
  },
  "description": "",
  "repository": {
