@@ -1,4 +1,5 @@
-<self :class="`${this.disableNested ? 'disable-nested' : ''}`">
+<self 
+  :class.disable-nested="this.@disableNested">
   <div class="breadcrumb" :v-for="form of this.forms">
     <div>
       <label :on-click="this.target(form)">{{ form.label || form.@type?.definition.name }}</label>

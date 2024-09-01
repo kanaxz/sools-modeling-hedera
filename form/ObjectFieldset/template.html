@@ -1,4 +1,6 @@
-<super :class="`${this.@types.length === 1 ? 'one-option' : ''}`">
+<super 
+  :class="`${this.@types.length === 1 ? 'one-option' : ''}`"
+  :class.root="this.root">
   <slot name="header">
     <super-slot></super-slot>
     <select :v-for="option of this.@types">

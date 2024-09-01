@@ -2,6 +2,7 @@
   <input 
     :name="this.state.property.name"
     type="number"
+    :min="this.state.@min"
     :value="this.state.@value"
     :step="this.state.@step || 1" 
     :on-change="this.setValue(parseFloat(node.value))">

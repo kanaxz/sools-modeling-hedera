@@ -41,6 +41,9 @@ object-fieldset {
   }
 
   > header {
+    display:flex;
+    flex-direction:row;
+    align-items:center;
     select {
       display: none;
       margin-left: 10px;
@@ -55,8 +58,6 @@ object-fieldset {
       border: 1px solid transparent;
       &:hover,
       &:focus {
-        border-color: #e1e1e1;
-        background-color: #fff;
         -webkit-appearance: menulist;
         -moz-appearance: menulist;
       }
@@ -69,8 +70,6 @@ object-fieldset {
       align-items: center;
       justify-content: center;
       padding: 5px;
-      background-color: #fff;
-      border: 1px solid #e1e1e1;
       &:hover {
         background-color: rgba(aquamarine, 0.3);
       }
@@ -86,9 +85,6 @@ object-fieldset {
   > .main {
     > fieldset {
       display: none;
-      //border: 1px solid #a1a1a1;
-      margin-top: 5px;
-      padding: 15px;
       flex-direction: row;
       align-items: flex-start;
       justify-content: space-between;
@@ -96,6 +92,14 @@ object-fieldset {
       gap: 12px;
       > * {
         flex: 1 1 450px;
+      }
+    }
+  }
+
+  &:not(.root){
+    > .main {
+      > fieldset{
+        padding-left: 15px;
       }
     }
   }

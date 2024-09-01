@@ -1,4 +1,9 @@
-<super :class="`field ${this.state.@required && 'required'} ${!this.state.@value && 'empty'} ${this.state.@disabled && 'disabled'} ${this.state.@hidden && 'hidden'}`">
+<super 
+  :class.required="this.state.@required"
+  :class.empty="!this.state.@value"
+  :class.disabled="this.state.@disabled"
+  :class.hidden="this.state.@hidden"
+  class="field">
   <header slot="header">
     <label :style.display="this.state.property.name ? null : 'none'">
       {{this.state.property.name || ''}}

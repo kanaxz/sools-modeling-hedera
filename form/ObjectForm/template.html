@@ -1,4 +1,7 @@
-<self :class="`object-form ${this.@mode} ${this.@editable ? 'editable' : ''}  ${this.@deletable && this.model ? 'deletable' : ''}`">
+<self 
+  :class.editable="this.@editable"
+  :class.deletable="this.@deletable && this.model"
+  :class="`object-form ${this.@mode}`">
   <form :on-submit="this.onSubmit(event)">
     <object-fieldset 
       as="fieldset" 
