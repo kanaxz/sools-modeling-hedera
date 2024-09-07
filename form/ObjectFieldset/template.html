@@ -1,25 +1,30 @@
 <super 
-  :class="`${this.@types.length === 1 ? 'one-option' : ''}`"
+  :class.one-option="this.@types.length === 1"
+  :class.one-field="this.@fields.length <= 1 && !(this.@fields[0] instanceof this.constructor)"
   :class.root="this.root">
   <slot name="header">
     <super-slot></super-slot>
-    <select :v-for="option of this.@types">
+    <select 
+      :on-change="this.onSelectedTypeChanged(node.value)"
+      @for="option of this.@types">
       <option 
-        :option-value="option"
-        :selected="this.@types.find((t)=> this.value === t.value || (t.value && this.state.@value instanceof t.value))">
+        :value="option.definition.name"
+        :selected="this.state.@value?.constructor === option">
           {{ option.definition.name }}
       </option>
     </select>
-    <div class="create" :on-click="this.create()">
+    
+    <div class="create action" :on-click="this.create()">
       <i class="fa-solid fa-plus"></i>
     </div>
-    <div class="delete" :on-click="this.state.value = null">
+    <div class="delete action" :on-click="this.setValue(null)">
       <i class="fa-solid fa-xmark"></i>
     </div>  
+  
   </slot>
   <slot>
     <fieldset
-      :v-for="field of Object.values(this.@fields) with (f) => f">
+      @for="field of this.@fields with (f) => f">
     </fieldset>
   </slot>
 </self>

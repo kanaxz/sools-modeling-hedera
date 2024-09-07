@@ -1,0 +1,27 @@
+<super
+  @selectable-root
+  @selectable-root.disable="!this.@showValues"
+  @exit="this.showValues = false"
+  :class.has-values="this.state.@values">
+  <input 
+    :name="this.state.property.name"
+    :type="this.type"
+    :value="this.state.@value || ''"
+    :disabled="this.state.@readOnly"
+    :on-change="this.setValue(node.value)"
+    :on-focus="this.showValues = true"
+    :on-input="this.showValues = !node.value">
+  </input>
+  <div 
+    :class.hide="!this.@showValues"
+    class="values" 
+    @for="value of this.state.@values">
+    <div class="value" 
+      @selectable="node.click()"
+      :class.selected="value === this.state.value"
+      :class.current="value === this.state.@value"
+      :on-click="this.setValue(value)">
+      <span>{{value}}</span>
+    </div>
+  </div>
+  </super>

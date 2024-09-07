@@ -1,4 +1,8 @@
 .field {
+
+  background-color: rgba(#000, 0.2);
+  padding: 10px;
+
   &.disabled {
     display: none;
   }
@@ -13,9 +17,7 @@
     align-items: center;
     > label {
       display: block;
-      font-size: 18px;
-      font-weight: 500;
-      text-transform: uppercase;
+      padding: 5px;
     }
   }
 

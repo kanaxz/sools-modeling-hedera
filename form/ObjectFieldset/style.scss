@@ -1,10 +1,14 @@
+
 object-fieldset {
   display: block;
   width: 100% !important;
   flex: 100% !important;
 
+  //border: 1px solid rgba(#000, 0.3);
+  position: relative;
+
   &:not(.empty) {
-    > header {
+    >header {
       select {
         display: block;
       }
@@ -17,90 +21,133 @@ object-fieldset {
         display: block;
       }
     }
-    > .main {
-      > fieldset {
+
+    >.main {
+      >fieldset {
         display: flex;
       }
     }
   }
 
   &.required {
-    > header {
+    >header {
       .delete {
         display: none;
       }
     }
   }
 
-  &.one-option.required {
-    > header {
+  &.one-option {
+    >header {
       select {
         display: none;
       }
     }
   }
 
-  > header {
-    display:flex;
-    flex-direction:row;
-    align-items:center;
+  &.one-field:not(.empty) {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+
+    >header {
+      flex-direction: column;
+      align-items: flex-start;
+
+      >select {
+        margin-left: 0;
+      }
+    }
+
+    >.main {
+      flex: 1;
+
+      .field {
+        background-color: transparent;
+        padding: 0;
+      }
+    }
+  }
+
+  >header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    >label {
+      flex: 1;
+    }
+
     select {
       display: none;
       margin-left: 10px;
       cursor: pointer;
-      -webkit-appearance: none;
-      -moz-appearance: none;
+      //appearance: none;
       border: none;
       padding: 5px;
       background: none;
 
       font-size: 17px;
       border: 1px solid transparent;
+      background-color: rgba(#000, 0.5);
+
       &:hover,
       &:focus {
-        -webkit-appearance: menulist;
-        -moz-appearance: menulist;
+        //appearance: menulist-button;
       }
     }
-    .create,
-    .delete {
-      margin-left: 5px;
+
+
+    .action {
       display: flex;
       cursor: pointer;
       align-items: center;
       justify-content: center;
-      padding: 5px;
-      &:hover {
-        background-color: rgba(aquamarine, 0.3);
-      }
-    }
-
-    .create {
     }
 
     .delete {
       display: none;
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      padding: 3px 7px;
+
+      &:hover {
+        background-color: rgba(#c55, 0.5);
+      }
+    }
+
+    .create {
+      padding: 6px;
+
+      &:hover {
+        background-color: rgba(#5c5, 0.5);
+      }
     }
   }
-  > .main {
-    > fieldset {
+
+  >.main {
+    >fieldset {
       display: none;
       flex-direction: row;
       align-items: flex-start;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 12px;
-      > * {
+
+      >* {
         flex: 1 1 450px;
       }
     }
   }
 
-  &:not(.root){
-    > .main {
-      > fieldset{
-        padding-left: 15px;
-      }
+  &.root {
+    background-color: transparent;
+    padding: 0;
+
+    >header {
+      display: none !important;
     }
   }
 }

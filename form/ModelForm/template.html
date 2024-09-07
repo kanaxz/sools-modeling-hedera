@@ -1,6 +1,6 @@
 <self 
   :class.disable-nested="this.@disableNested">
-  <div class="breadcrumb" :v-for="form of this.forms">
+  <div class="breadcrumb" @for="form of this.forms">
     <div>
       <label :on-click="this.target(form)">{{ form.label || form.@type?.definition.name }}</label>
     </div>
@@ -19,5 +19,5 @@
     :states="this.@states"
     :object="this.@model">
   </child-model-form>
-  <div class="forms" :v-for="form of this.forms with (f) => f"></div>
+  <div class="forms" @for="form of this.forms with (f) => f"></div>
 </self>   

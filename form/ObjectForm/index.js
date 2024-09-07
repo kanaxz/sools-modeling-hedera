@@ -1,7 +1,7 @@
 const Component = require('sools-hedera/Component')
 const template = require('./template.html')
 const context = require('sools-core-client/context')
-const RootObjectState = require('sools-modeling/states/RootObjectState')
+const ObjectState = require('sools-modeling/stating/ObjectState')
 require('./style.scss')
 
 const applyStates = (targetStates, statesPatch) => {
@@ -35,7 +35,7 @@ module.exports = class ObjectForm extends Component {
   }
 
   buildState(value) {
-    return new RootObjectState({
+    return new ObjectState({
       property: {
         type: value.constructor,
       },

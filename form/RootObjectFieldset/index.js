@@ -1,7 +1,7 @@
 const Component = require('sools-hedera/Component')
 const template = require('./template.html')
 const context = require('sools-core-client/context')
-const RootObjectState = require('sools-modeling/states/RootObjectState')
+const ObjectState = require('sools-modeling/stating/ObjectState')
 require('./style.scss')
 
 const applyStates = (targetStates, statesPatch) => {
@@ -23,16 +23,27 @@ module.exports = class RootObjectForm extends Component {
   }
 
   async onInit() {
+    this.on('propertyChanged:value', this.b(this.onValueChanged))
+    this.onValueChanged()
+  }
+
+  async onValueChanged() {
+
     const { value } = this
-    console.log(value)
-    this.state = new RootObjectState({
+    if (!value) {
+      this.state = null
+      return
+    }
+
+    this.state = new ObjectState({
       property: {
         type: value.constructor,
       },
       value,
       required: true,
-      context,
     })
+
+    await this.updateStates()
   }
 
   async onReady() {
@@ -40,7 +51,7 @@ module.exports = class RootObjectForm extends Component {
   }
 
   async updateStates() {
-    await this.state.applyLogics()
+    if (!this.state) { return }
 
     if (this.states) {
       applyStates(this.state.states, this.states)
@@ -61,6 +72,7 @@ module.exports = class RootObjectForm extends Component {
     value: 'any',
     type: 'any',
     mode: 'any',
+    state: 'any',
   })
 
 

@@ -9,9 +9,21 @@ module.exports = class Field extends Interface {
     Object.assign(this, values)
   }
 
-  onInit() {
-    this.on(this.state, 'propertyChanged:value', this.b(this.onValueChanged))
-    this.onValueChanged()
+  async onInit() {
+    this.on('propertyChanged:state', this.b(this.onStateChanged))
+    await this.onStateChanged(this.state)
+  }
+
+  async onStateChanged(newState, oldState) {
+    if (oldState) {
+      this.off(oldState, 'propertyChanged:value', this.b(this.onValueChanged))
+    }
+
+    if (newState) {
+      this.on(newState, 'propertyChanged:value', this.b(this.onValueChanged))
+    }
+
+    await this.onValueChanged()
   }
 
   onValueChanged() {
@@ -33,8 +45,8 @@ module.exports = class Field extends Interface {
     return this.value
   }
 
-  setValue(value) {
-    this.state.value = value
+  async setValue(value) {
+    await this.state.setValue(value)
     this.touched = -1
     this.event('changed', { field: this })
   }

@@ -1,4 +1,4 @@
-const Field = require('../Field')
+const Field = require('../../Field')
 const template = require('./template.html')
 require('./style.scss')
 

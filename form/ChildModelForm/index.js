@@ -1,6 +1,6 @@
 const template = require('./template.html')
 const context = require('sools-core-client/context')
-const RootModelState = require('sools-modeling/states/RootModelState')
+const RootModelState = require('sools-modeling/stating/RootModelState')
 const ObjectForm = require('../ObjectForm')
 require('./style.scss')
 

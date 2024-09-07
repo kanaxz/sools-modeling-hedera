@@ -1,4 +1,7 @@
-<super :class="`${this.@open ? 'open' : ''}`" :v-exit="this.stop()" :v-selectable-root>  
+<super 
+  :class.open="this.@open" 
+  @exit="this.stop()" 
+  @selectable-root>  
   <div class="search-bar">
     <div class="search-icon">
       <i class="fa-solid fa-magnifying-glass"></i>
@@ -8,7 +11,7 @@
       as="input"
       placeholder="Search ..."
       :on-input="this.length = this.input.value.length" 
-      :v-input-delay="this.search()" 
+      @input-delay="this.search()" 
       :on-focus="this.start()">
     <div class="x" :class="`${this.@length ? '' : 'empty'}`" :on-click="this.empty()">
       <i class="fa-solid fa-xmark"></i>
@@ -21,9 +24,9 @@
       </tool-tip>
     </div>
   </div>
-  <div class="searchables" :v-projection>
+  <div class="searchables" @projection>
     <div class="background"></div>
-    <div class="list" :v-for="searchable of this.searchables">
+    <div class="list" @for="searchable of this.searchables">
       <div class="searchable" :class="`${searchable.@error ? 'error' : ''} ${searchable.@results?.length ? '' : 'hide'}`"">
         <header>
           <label>{{searchable.type.definition.pluralName}}</label>
@@ -36,12 +39,12 @@
         </header>
         <div  
           class="results" 
-          :v-for="result of searchable.@results">
-          <a :on-click="this.stop()" :v-link="result.@url">
+          @for="result of searchable.@results">
+          <a :on-click="this.stop()" @link="result.@url">
             <model-component 
               :model="result"
               :type="'row'" 
-              :v-selectable="node.click()">
+              @selectable="node.click()">
             </model-component>
           </a>
         </div>

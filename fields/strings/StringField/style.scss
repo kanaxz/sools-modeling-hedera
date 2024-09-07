@@ -1,0 +1,38 @@
+string-field {
+  display: block;
+  position: relative;
+
+  input {
+    width: 100%;
+  }
+
+  .values {
+    width: 100%;
+    position: absolute;
+    background-color: rgba(#000, 0.8);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+
+    .value {
+      cursor: pointer;
+      padding: 5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+      border-left: 5px solid transparent;
+
+      &:hover,
+      &.selected {
+        border-left-color: rgba(#0984e3, 0.7);
+      }
+
+      &.current {
+        background-color: rgba(#0984e3, 0.3);
+      }
+    }
+  }
+
+  &.hasValues {
+    input {
+      cursor: pointer;
+    }
+  }
+}

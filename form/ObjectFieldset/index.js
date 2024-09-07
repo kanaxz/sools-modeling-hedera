@@ -1,15 +1,15 @@
 const template = require('./template.html')
 const { String, Bool, Model, Object: ObjectType, Number } = require('sools-modeling/types')
-const { TextField, BoolField, DateField, NumberField, MarkdownField } = require('../..//fields')
+const { StringField, BoolField, DateField, NumberField, MarkdownField } = require('../../fields')
 const ModelField = require('../ModelField')
 const Field = require('../../fields/Field')
-const Markdown = require('sools-modeling/types/Markdown')
+const { Markdown } = require('sools-modeling/types')
 const ignore = ['@type']
 require('./style.scss')
 
 const typesFieldmapping = [
   [Markdown, MarkdownField],
-  [String, TextField],
+  [String, StringField],
   [Bool, BoolField],
   [Number, NumberField],
   [Model, ModelField],
@@ -22,61 +22,62 @@ const getMapping = (type) => {
 class ObjectFieldset extends Field {
   static typesFieldmapping = typesFieldmapping
 
-  onInit() {
-    this.updateTypes()
-    if (!this.state.value && this.state.required) {
-      this.create()
-    }
-    super.onInit()
-  }
-
-  create() {
-    this.setValue(new (this.types[0])())
-  }
-
-  onSelectedTypeChanged(type) {
-    if (this.value?.constructor === type) { return }
-    let value
-    if (type) {
-      const oldValue = this.value
-      value = new type()
-      Object.assign(value, oldValue)
+  onStateChanged(newState, oldState) {
+    if (newState) {
+      this.types = newState.property.type
+        .getAllChilds()
+        .filter((c) => !c.definition.abstract)
     } else {
-      value = null
+      this.types = []
     }
-
-    this.setValue(value)
+    return super.onStateChanged(newState, oldState)
   }
 
-  async updateTypes() {
-    this.types = this.state.property.type
-      .getAllChilds()
-      .filter((c) => !c.definition.abstract)
-  }
-
-  onValueChanged() {
-    if (!this.state.value) {
-      this.fields = []
-      return
-    }
-    const type = this.state.property.type
-    const properties = type.properties
-    this.fields = Object.entries(this.state.states)
-      .filter(([p]) => ignore.indexOf(p) === -1)
-      .reduce((acc, [propertyName, state]) => {
-        const property = properties.find((p) => p.name === propertyName)
-        const mapping = getMapping(property.type)
-        const fieldType = mapping[1]
-        const field = new fieldType({
-          state,
-          childForm: this.childForm,
-          fieldset: this,
-          form: this.form,
+  async onValueChanged() {
+    let fields = []
+    if (this.state?.value) {
+      const properties = this.state.currentType.properties
+      fields = Object.entries(this.state.states)
+        .filter(([p]) => ignore.indexOf(p) === -1)
+        .map(([propertyName, state]) => {
+          const property = properties.find((p) => p.name === propertyName)
+          const mapping = getMapping(property.type)
+          const fieldType = mapping[1]
+          const field = new fieldType({
+            state,
+            childForm: this.childForm,
+            fieldset: this,
+            form: this.form,
+          })
+          field.addEventListener('changed', this.b(this.onFieldChanged))
+          return field
         })
-        acc[property.name] = field
-        field.addEventListener('changed', this.b(this.onFieldChanged))
-        return acc
-      }, {})
+    }
+    await this.set({
+      fields
+    })
+  }
+
+  focus() {
+    const firstField = this.querySelector('input')
+    if (firstField) {
+      firstField.focus()
+    }
+  }
+
+  async create() {
+    const type = this.types[0]
+    await this.setValue(new type())
+    this.focus()
+  }
+
+  onSelectedTypeChanged(typeName) {
+    const type = this.types.find((t) => t.definition.name === typeName)
+    if (this.value?.constructor === type) { return }
+
+    const value = new type()
+    Object.assign(value, this.value)
+    this.setValue(value)
   }
 
   onFieldChanged() {
@@ -86,14 +87,13 @@ class ObjectFieldset extends Field {
 
   showErrors() {
     this.touched = true
-    Object.values(this.fields)
-      .forEach((field) => {
-        if (field.showErrors) {
-          field.showErrors()
-        } else {
-          field.touched = true
-        }
-      })
+    this.fields.forEach((field) => {
+      if (field.showErrors) {
+        field.showErrors()
+      } else {
+        field.touched = true
+      }
+    })
   }
 
 }

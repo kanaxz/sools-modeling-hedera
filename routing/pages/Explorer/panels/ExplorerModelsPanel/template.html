@@ -1,5 +1,5 @@
 <self>
-  <div class="models" :v-for="model of this.models">
+  <div class="models" @for="model of this.models">
     <div 
       class="model" 
       :on-click="this.openModel(model)">

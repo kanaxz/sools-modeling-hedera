@@ -1,5 +1,5 @@
-<super :class="`${this.@mode}`" :v-selectable-root>
-  <div class="inner" :v-exit="this.default(true)">
+<super :class="`${this.@mode}`" @selectable-root>
+  <div class="inner" @exit="this.default(true)">
     <div class="input">
       <div 
         class="value" 
@@ -9,7 +9,7 @@
       <input 
         as="input" 
         :on-focus="this.onFocus()" 
-        :v-input-delay="this.search(node.value)" />
+        @input-delay="this.search(node.value)" />
       <div class="close" :on-click="this.selectSuggestion(null)">
         <i class="fa-solid fa-xmark"></i>
       </div>
@@ -20,15 +20,15 @@
     </button>
     <div 
       class="suggestions" 
-      :style.display="!this.@suggestionsOpen && 'none' || null"
-      :v-for="suggestion of this.@suggestions">
+      :class.hide="this.@suggestionsOpen"
+      @for="suggestion of this.@suggestions">
         <div 
           class="suggestion" 
           :on-click="this.selectSuggestion(suggestion)">
             <model-component 
               :type="'row'"
               :model="suggestion"
-              :v-selectable="node.click()">
+              @selectable="node.click()">
             </model-component>
         </div>
     </div>

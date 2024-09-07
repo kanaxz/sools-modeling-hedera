@@ -1,6 +1,6 @@
 <self>
   <header>
-    <div class="before" :v-for="fragment of this.@beforeHeader">
+    <div class="before" @for="fragment of this.@beforeHeader">
       <div
         :inner-html="fragment.fragment">
       </div>
@@ -10,9 +10,9 @@
     </app-interface>
   </header>
   <div class="content">
-    <div class="actions" :v-for="action of this.@actions">
+    <div class="actions" @for="action of this.@actions">
       <app-interface
-        :v-link="action.url !== undefined ? this.@model.url + action.url : null"
+        @link="action.url !== undefined ? this.@model.url + action.url : null"
         :class="`${action.class || ''} interactable clickable activable`">
           <a
             :href="action.url !== undefined ? this.@model.url + action.url : null"

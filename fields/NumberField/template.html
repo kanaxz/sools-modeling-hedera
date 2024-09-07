@@ -4,7 +4,7 @@
     type="number"
     :min="this.state.@min"
     :value="this.state.@value"
-    :step="this.state.@step || 1" 
+    :step="this.state.@step || 'any'" 
     :on-change="this.setValue(parseFloat(node.value))">
   </input>
 </super>
